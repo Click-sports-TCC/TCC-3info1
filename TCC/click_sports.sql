@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 09/03/2020 às 16:49
+-- Tempo de geração: 11/03/2020 às 15:04
 -- Versão do servidor: 5.7.28-0ubuntu0.18.04.4
 -- Versão do PHP: 7.2.26-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -34,6 +34,14 @@ CREATE TABLE `avaliacao` (
   `Usuario_CPF` varchar(45) NOT NULL,
   `quadra_idquadra` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `avaliacao`
+--
+
+INSERT INTO `avaliacao` (`idavaliacao`, `hora_avaliacao`, `data_avalicao`, `comentario`, `Usuario_CPF`, `quadra_idquadra`) VALUES
+(1, '18:30:00.00000', '2020-03-10', 'Top, otimo local', '129.853.379-17', 1),
+(2, '10:00:00.00000', '2020-03-09', 'Foi muito legal.', '129.853.379-17', 1);
 
 -- --------------------------------------------------------
 
@@ -67,10 +75,17 @@ CREATE TABLE `quadra` (
   `nome_quadra` varchar(45) NOT NULL DEFAULT '',
   `disponibilidade` varchar(45) NOT NULL,
   `horario` varchar(45) NOT NULL,
-  `endereço` varchar(45) NOT NULL,
+  `endereço` varchar(100) NOT NULL,
   `CNPJ` varchar(45) NOT NULL,
   `Usuario_CPF` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `quadra`
+--
+
+INSERT INTO `quadra` (`idquadra`, `nome_quadra`, `disponibilidade`, `horario`, `endereço`, `CNPJ`, `Usuario_CPF`) VALUES
+(1, 'IFC araquari', 'Disponivel', '08:00 até 20:00', 'Rodovia BR 280, km 27, Araquari - SC, 89245-000', '09147624000100', '127.270.499-86');
 
 -- --------------------------------------------------------
 
@@ -88,6 +103,13 @@ CREATE TABLE `quadra_has_Usuario` (
   `data` date NOT NULL,
   `confirmacao` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `quadra_has_Usuario`
+--
+
+INSERT INTO `quadra_has_Usuario` (`cod_reserva`, `quadra_idquadra`, `Usuario_CPF_locador`, `Usuario_CPF_proprietario`, `hora_ini`, `hora_fim`, `data`, `confirmacao`) VALUES
+(1, 1, '129.853.379-17', '127.270.499-86', '18:00:00.000000', '20:00:00.000000', '2020-03-14', NULL);
 
 -- --------------------------------------------------------
 
@@ -164,17 +186,22 @@ ALTER TABLE `Usuario`
 -- AUTO_INCREMENT de tabela `avaliacao`
 --
 ALTER TABLE `avaliacao`
-  MODIFY `idavaliacao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idavaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de tabela `perfil`
+--
+ALTER TABLE `perfil`
+  MODIFY `cod_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de tabela `quadra`
 --
 ALTER TABLE `quadra`
-  MODIFY `idquadra` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idquadra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de tabela `quadra_has_Usuario`
 --
 ALTER TABLE `quadra_has_Usuario`
-  MODIFY `cod_reserva` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cod_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Restrições para dumps de tabelas
 --
@@ -196,15 +223,9 @@ ALTER TABLE `quadra`
 -- Restrições para tabelas `quadra_has_Usuario`
 --
 ALTER TABLE `quadra_has_Usuario`
-  ADD CONSTRAINT `fk_quadra_has_Usuario_Usuario1` FOREIGN KEY (`Usuario_CPF_locador`) REFERENCES `Usuario` (`CPF`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_quadra_has_Usuario_Usuario2` FOREIGN KEY (`Usuario_CPF_proprietario`) REFERENCES `Usuario` (`CPF`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_quadra_has_Usuario_quadra1` FOREIGN KEY (`quadra_idquadra`) REFERENCES `quadra` (`idquadra`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Restrições para tabelas `Usuario`
---
-ALTER TABLE `Usuario`
-  ADD CONSTRAINT `fk_Usuario_perfil1` FOREIGN KEY (`perfil_cod_perfil`) REFERENCES `perfil` (`cod_perfil`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_quadra_has_Usuario_1` FOREIGN KEY (`Usuario_CPF_locador`) REFERENCES `Usuario` (`CPF`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_quadra_has_Usuario_2` FOREIGN KEY (`Usuario_CPF_proprietario`) REFERENCES `Usuario` (`CPF`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_quadra_has_Usuario_3` FOREIGN KEY (`quadra_idquadra`) REFERENCES `quadra` (`idquadra`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
